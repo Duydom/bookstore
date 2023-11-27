@@ -32,7 +32,8 @@ namespace BookStore.Service.AddressService
             if (_addressRepository.IsSaveChanges())
                 return new ResponseDTO()
                 {
-                    Message = "Tạo thành công"
+                    Message = "Tạo thành công",
+                    Data = _mapper.Map<AddressDTO>(_addressRepository.GetAddressById())
                 };
             else
                 return new ResponseDTO()

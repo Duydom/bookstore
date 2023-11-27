@@ -42,8 +42,8 @@ namespace BookStore.Repositories.CartRepository
 
         public void UpdateCart(Cart cart)
         {
-            _dataContext.Carts.Update(cart);
-            //_dataContext.Entry(cart).State = EntityState.Modified;
+            //_dataContext.Carts.Update(cart);
+            _dataContext.Entry(cart).State = EntityState.Modified;
         }
     }
 }

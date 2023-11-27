@@ -55,6 +55,7 @@ namespace BookStore.Service.OrderService
                 Code = 400,
                 Message = "ShippingMode không tồn tại"
             };
+
             var address = _addressRepository.GetAddressById(createOrderDTO.AddressId);
             if (address == null) return new ResponseDTO()
             {
@@ -103,7 +104,6 @@ namespace BookStore.Service.OrderService
                                 order.Quantities.Add(quantity);
                             }
                         }
-
                     }
                 }
             }

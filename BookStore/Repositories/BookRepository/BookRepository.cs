@@ -6,6 +6,8 @@ namespace BookStore.Repositories.BookRepository
     public class BookRepository : IBookRepository
     {
         private readonly DataContext _dataContext;
+
+        public static int Total = 0;
         public BookRepository(DataContext dataContext)
         {
             _dataContext = dataContext;
@@ -30,9 +32,16 @@ namespace BookStore.Repositories.BookRepository
             return _dataContext.Books.Count();
         }
 
-        public List<Book> GetBooks(int? page = 1, int? pageSize = 10, string? key = "", string? sortBy = "ID")
+        public List<Book> GetBooks(int? page = 1, int? pageSize = 10, string? key = "", string? sortBy = "ID", int? tagId = 0)
         {
             var query = _dataContext.Books.Include(a => a.Author).Include(p => p.Publisher).Include(t => t.Tags).Include(r => r.Ratings).AsQueryable();
+            
+            var tag = _dataContext.Tags.FirstOrDefault(t => t.Id == tagId);
+            
+            if (tag != null)
+            {
+                query = _dataContext.Books.Include(a => a.Author).Include(p => p.Publisher).Include(t => t.Tags).Include(r => r.Ratings).Where(b => b.Tags.FirstOrDefault(t => t.Id == tagId) != null).AsQueryable();
+            }
 
             if (!string.IsNullOrEmpty(key))
             {
@@ -57,6 +66,9 @@ namespace BookStore.Repositories.BookRepository
                     query = query.OrderBy(u => u.IsDeleted).ThenBy(u => u.Id);
                     break;
             }
+
+            Total = query.Count();
+
             if (page == null || pageSize == null || sortBy == null) { return query.ToList(); }
             else
                 return query.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value).ToList();
