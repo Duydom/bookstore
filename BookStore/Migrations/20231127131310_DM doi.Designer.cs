@@ -4,6 +4,7 @@ using BookStore.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231127131310_DM doi")]
+    partial class DMdoi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,10 +279,20 @@ namespace BookStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CartId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Quantities");
                 });
@@ -480,36 +493,6 @@ namespace BookStore.Migrations
                     b.ToTable("BookTag");
                 });
 
-            modelBuilder.Entity("CartQuantity", b =>
-                {
-                    b.Property<int>("CartsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuantitiesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CartsId", "QuantitiesId");
-
-                    b.HasIndex("QuantitiesId");
-
-                    b.ToTable("CartQuantity");
-                });
-
-            modelBuilder.Entity("OrderQuantity", b =>
-                {
-                    b.Property<int>("OrdersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuantitiesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrdersId", "QuantitiesId");
-
-                    b.HasIndex("QuantitiesId");
-
-                    b.ToTable("OrderQuantity");
-                });
-
             modelBuilder.Entity("BookOrder", b =>
                 {
                     b.HasOne("BookStore.Model.Book", null)
@@ -586,6 +569,17 @@ namespace BookStore.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BookStore.Model.Quantity", b =>
+                {
+                    b.HasOne("BookStore.Model.Cart", null)
+                        .WithMany("Quantities")
+                        .HasForeignKey("CartId");
+
+                    b.HasOne("BookStore.Model.Order", null)
+                        .WithMany("Quantities")
+                        .HasForeignKey("OrderId");
+                });
+
             modelBuilder.Entity("BookStore.Model.Rating", b =>
                 {
                     b.HasOne("BookStore.Model.Book", "Book")
@@ -639,36 +633,6 @@ namespace BookStore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CartQuantity", b =>
-                {
-                    b.HasOne("BookStore.Model.Cart", null)
-                        .WithMany()
-                        .HasForeignKey("CartsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookStore.Model.Quantity", null)
-                        .WithMany()
-                        .HasForeignKey("QuantitiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("OrderQuantity", b =>
-                {
-                    b.HasOne("BookStore.Model.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BookStore.Model.Quantity", null)
-                        .WithMany()
-                        .HasForeignKey("QuantitiesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BookStore.Model.Book", b =>
                 {
                     b.Navigation("Ratings");
@@ -677,6 +641,13 @@ namespace BookStore.Migrations
             modelBuilder.Entity("BookStore.Model.Cart", b =>
                 {
                     b.Navigation("Books");
+
+                    b.Navigation("Quantities");
+                });
+
+            modelBuilder.Entity("BookStore.Model.Order", b =>
+                {
+                    b.Navigation("Quantities");
                 });
 
             modelBuilder.Entity("BookStore.Model.User", b =>

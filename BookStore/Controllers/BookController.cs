@@ -21,9 +21,9 @@ namespace BookStore.Controllers
             return StatusCode(res.Code, res);
         }
         [HttpGet]
-        public IActionResult GetBooks(int? page = 1, int? pageSize = 10, string? key = "", string? sortBy = "ID")
+        public IActionResult GetBooks(int? page = 1, int? pageSize = 10, string? key = "", string? sortBy = "ID", int? tagId = 0)
         {
-            var res = _bookService.GetBooks(page, pageSize, key, sortBy);
+            var res = _bookService.GetBooks(page, pageSize, key, sortBy, tagId);
             return StatusCode(res.Code, res);
         }
         [HttpPut("{id}")]

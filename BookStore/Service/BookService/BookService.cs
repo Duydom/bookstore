@@ -106,14 +106,14 @@ namespace BookStore.Service.BookService
             };
         }
 
-        public ResponseDTO GetBooks(int? page = 1, int? pageSize = 10, string? key = "", string? sortBy = "ID")
+        public ResponseDTO GetBooks(int? page = 1, int? pageSize = 10, string? key = "", string? sortBy = "ID", int? tagId = 0)
         {
-            var books = _bookRepository.GetBooks(page,pageSize,key,sortBy);
+            var books = _bookRepository.GetBooks(page, pageSize, key, sortBy, tagId);
 
             return new ResponseDTO()
             {
                 Data = _mapper.Map<List<BookDTO>>(books),
-                Total = _bookRepository.GetBookCount()
+                Total = BookRepository.Total
             };
         }
 
