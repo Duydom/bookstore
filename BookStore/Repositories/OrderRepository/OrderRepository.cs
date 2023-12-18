@@ -22,12 +22,12 @@ namespace BookStore.Repositories.OrderRepository
 
         public Order GetOrderById(int id)
         {
-            return _dataContext.Orders.Include(o => o.User).Include(o => o.ShippingMode).Include(o => o.Address).Include(o => o.Books).Include(o => o.Quantities).FirstOrDefault(t => t.Id == id);
+            return _dataContext.Orders.Include(o => o.User).Include(o => o.ShippingMode).Include(o => o.Address).Include(o => o.OrderBooks).ThenInclude(s => s.Book).FirstOrDefault(t => t.Id == id);
         }
 
         public List<Order> GetOrderByUser(int userId, int? page = 1, int? pageSize = 10, string? key = "", string? sortBy = "ID")
         {
-            var query = _dataContext.Orders.Include(o => o.User).Include(o => o.ShippingMode).Include(o => o.Address).Include(o => o.Books).Include(o => o.Quantities).Where(o => o.User.Id == userId).AsQueryable();
+            var query = _dataContext.Orders.Include(o => o.User).Include(o => o.ShippingMode).Include(o => o.Address).Include(o => o.OrderBooks).ThenInclude(s => s.Book).Where(o => o.User.Id == userId).AsQueryable();
 
             if (!string.IsNullOrEmpty(key))
             {
@@ -55,7 +55,7 @@ namespace BookStore.Repositories.OrderRepository
 
         public List<Order> GetOrders(int? page = 1, int? pageSize = 10, string? key = "", string? sortBy = "ID")
         {
-            var query = _dataContext.Orders.Include(o => o.User).Include(o => o.ShippingMode).Include(o => o.Address).Include(o => o.Books).Include(o => o.Quantities).AsQueryable();
+            var query = _dataContext.Orders.Include(o => o.User).Include(o => o.ShippingMode).Include(o => o.Address).Include(o => o.OrderBooks).ThenInclude(s => s.Book).AsQueryable();
 
             if (!string.IsNullOrEmpty(key))
             {

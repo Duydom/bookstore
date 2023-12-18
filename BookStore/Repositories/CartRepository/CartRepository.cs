@@ -22,11 +22,11 @@ namespace BookStore.Repositories.CartRepository
         }
         public Cart GetCartByUser(int userId)
         {
-            var user = _dataContext.Users.Include(u => u.Cart).FirstOrDefault(u => u.Id == userId);
-            if (user == null)
-                return null;
+            var user = _dataContext.Users.Include(c => c.Cart).FirstOrDefault(c => c.Id == userId);
 
-            var cart = _dataContext.Carts.Include(o => o.Books).Include(o => o.Quantities).FirstOrDefault(c => c.Id == user.Cart.Id);
+            if (user == null) return null;
+
+            var cart = _dataContext.Carts.Include(c => c.CartBooks).ThenInclude(c => c.Book).FirstOrDefault(c => c.Id == user.Cart.Id);
             return cart;
         }
 
@@ -42,7 +42,6 @@ namespace BookStore.Repositories.CartRepository
 
         public void UpdateCart(Cart cart)
         {
-            //_dataContext.Carts.Update(cart);
             _dataContext.Entry(cart).State = EntityState.Modified;
         }
     }

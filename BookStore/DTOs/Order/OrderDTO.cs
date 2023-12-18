@@ -1,5 +1,6 @@
 ﻿using BookStore.DTOs.Address;
 using BookStore.DTOs.Book;
+using BookStore.DTOs.OrderBook;
 using BookStore.DTOs.ShippingMode;
 using BookStore.DTOs.User;
 using System.ComponentModel.DataAnnotations;
@@ -15,7 +16,6 @@ namespace BookStore.DTOs.Order
         public virtual UserDTO User { get; set; }
         public virtual ShippingModeDTO ShippingMode { get; set; }
         public virtual AddressDTO Address { get; set; }
-        public List<QuantityDTO> Quantities { get; set; }
-        public virtual List<BookDTO> Books { get; set; }
+        public virtual List<OrderBookDTO> OrderBooks { get; set; }
     }
 }

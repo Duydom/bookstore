@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using BookStore.DTOs.Cart;
+using BookStore.DTOs.CartBook;
 using BookStore.DTOs.Order;
+using BookStore.DTOs.OrderBook;
 using BookStore.DTOs.Response;
 using BookStore.Model;
 using BookStore.Repositories.AddressRepository;
@@ -74,52 +77,18 @@ namespace BookStore.Service.OrderService
 
             var order = _mapper.Map<Order>(createOrderDTO);
 
-            for (int i = 0; i < createOrderDTO.BookIds.Count(); i++)
+            for (int i = 0; i < createOrderDTO.BookIds.Count; i++)
             {
                 var book = _bookRepository.GetBookById(createOrderDTO.BookIds[i]);
                 if (book != null)
                 {
-                    int index = cart.Books.FindIndex(o => o.Id == book.Id);
-                    if (index >= 0 && cart.Quantities[index].Count == createOrderDTO.QuantitieCounts[i])
+                    order.OrderBooks.Add(new OrderBook()
                     {
-                        cart.Books.RemoveAt(index);
-                        cart.Quantities.RemoveAt(index);
-                    }
-
-                    var quantity = _quantityRepository.GetQuantity(createOrderDTO.QuantitieCounts[i]);
-                    if (quantity != null)
-                    {
-                        order.Books.Add(book);
-                        order.Quantities.Add(quantity);
-                    }
-                    else
-                    {
-                        _quantityRepository.CreateQuantity(createOrderDTO.QuantitieCounts[i]);
-                        if (_quantityRepository.IsSaveChanges())
-                        {
-                            quantity = _quantityRepository.GetQuantity(createOrderDTO.QuantitieCounts[i]);
-                            if (quantity != null)
-                            {
-                                order.Books.Add(book);
-                                order.Quantities.Add(quantity);
-                            }
-                        }
-                    }
+                        BookId = book.Id,
+                        Quantity = createOrderDTO.QuantitieCounts[i],
+                    });
                 }
             }
-
-            if (order.Books.Count == 0) return new ResponseDTO()
-            {
-                Code = 400,
-                Message = "Book không được để trống"
-            };
-
-            _cartRepository.UpdateCart(cart);
-            if (_cartRepository.IsSaveChanges() == false) return new ResponseDTO()
-            {
-                Code = 400,
-                Message = "Tạo thất bại"
-            };
 
             _orderRepository.CreateOrder(order);
             if (_orderRepository.IsSaveChanges())
@@ -185,9 +154,12 @@ namespace BookStore.Service.OrderService
                     Message = "Order không tồn tại"
                 };
 
-            return new ResponseDTO()
+            OrderDTO orderDTO = new OrderDTO();
+            List<OrderBookDTO> tmp = _mapper.Map<List<OrderBookDTO>>(order.OrderBooks);
+            orderDTO.OrderBooks = tmp;
+            return new ResponseDTO
             {
-                Data = _mapper.Map<OrderDTO>(order)
+                Data = _mapper.Map<OrderDTO>(order)//orderDTO
             };
         }
 

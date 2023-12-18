@@ -4,7 +4,9 @@ using BookStore.DTOs.Address;
 using BookStore.DTOs.Author;
 using BookStore.DTOs.Book;
 using BookStore.DTOs.Cart;
+using BookStore.DTOs.CartBook;
 using BookStore.DTOs.Order;
+using BookStore.DTOs.OrderBook;
 using BookStore.DTOs.Publisher;
 using BookStore.DTOs.Rate;
 using BookStore.DTOs.Role;
@@ -84,6 +86,12 @@ namespace BookStore.Profiles
 
             CreateMap<CreateRatingDTO, Rating>();
             CreateMap<Rating, CreateRatingDTO>();
+
+            CreateMap<CartBookDTO, CartBook>();
+            CreateMap<CartBook, CartBookDTO>();
+
+            CreateMap<OrderBook, OrderBookDTO>();
+            CreateMap<OrderBookDTO, OrderBook>();
 
             //CreateMap<Book, CreateBookDTO>()
             //.ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags));

@@ -21,7 +21,6 @@ namespace BookStore.Model
         [Required]
         public int AddressId { get; set; }
         public virtual Address Address { get; set; }
-        public virtual List<Quantity> Quantities { get; set; } = new List<Quantity>();
-        public virtual List<Book> Books { get; set; } = new List<Book>();
+        public virtual List<OrderBook> OrderBooks { get; set; } = new List<OrderBook>();
     }
 }
