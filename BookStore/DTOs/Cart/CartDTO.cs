@@ -1,10 +1,11 @@
 ﻿using BookStore.DTOs.Book;
+using BookStore.DTOs.CartBook;
 
 namespace BookStore.DTOs.Cart
 {
     public class CartDTO
     {
-        public List<QuantityDTO> Quantities { get; set; }
-        public List<BookDTO> Books { get; set; }
+        public List<CartBookDTO> CartBooks { get; set; }
+        public CartDTO() { }
     }
 }

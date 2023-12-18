@@ -25,7 +25,7 @@ namespace BookStore.Repositories.AddressRepository
         {
             if (id != 0)
                 return _dataContext.Addresses.Include(a => a.User).FirstOrDefault(a => a.Id == id);
-            else return _dataContext.Addresses.Include(a => a.User).Where(a => a.User.Id == 9).OrderBy(a => a.Id).LastOrDefault();
+            else return _dataContext.Addresses.Include(a => a.User).Where(a => a.User.Id == 2).OrderBy(a => a.Id).LastOrDefault();
         }
 
         public List<Address> GetAddressByUser(int userId)

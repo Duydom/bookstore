@@ -2,6 +2,7 @@
 using BookStore.DTOs.Response;
 using BookStore.Repositories.OrderRepository;
 using BookStore.Repositories.UserRepository;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BookStore.Service.StatisticalService
 {
@@ -36,7 +37,7 @@ namespace BookStore.Service.StatisticalService
             {
                 Total = countUser,
                 Statistical = arrUser,
-                Diff = arrUser[month - 2] == 0 ? 0 : ((arrUser[month - 1] - arrUser[month - 2]) / arrUser[month - 2]) * 100,
+                Diff = $"{(arrUser[month - 2] == 0 ? 0 : ((arrUser[month - 1] - arrUser[month - 2]) / arrUser[month - 2]) * 100):F2}",
             };
         }
 
@@ -62,7 +63,7 @@ namespace BookStore.Service.StatisticalService
             {
                 Total = countOrder,
                 Statistical = arrOrder,
-                Diff = arrOrder[month - 2] == 0 ? 0 : ((arrOrder[month - 1] - arrOrder[month - 2]) / arrOrder[month - 2]) * 100
+                Diff = $"{(arrOrder[month - 2] == 0 ? 0 : ((arrOrder[month - 1] - arrOrder[month - 2]) / arrOrder[month - 2]) * 100):F2}"
             };
         }
 
@@ -81,9 +82,9 @@ namespace BookStore.Service.StatisticalService
                 if (order.Create.Year == year && order.Status == "DON")
                 {
                     double totalMonth = 0;
-                    for (int i = 0; i < order.Books.Count(); i++)
+                    for (int i = 0; i < order.OrderBooks.Count(); i++)
                     {
-                        totalMonth += (order.Books[i].Price * order.Quantities[i].Count);
+                        totalMonth += (order.OrderBooks[i].Book.Price * order.OrderBooks[i].Quantity);
                     }
                     arrOrder[order.Create.Month - 1] = totalMonth;
                     countOrder++;
@@ -93,7 +94,7 @@ namespace BookStore.Service.StatisticalService
             {
                 Total = countOrder,
                 Statistical = arrOrder,
-                Diff = arrOrder[month - 2] == 0 ? 0 : ((arrOrder[month - 1] - arrOrder[month - 2]) / arrOrder[month - 2]) * 100
+                Diff = $"{(arrOrder[month - 2] == 0 ? 0 : ((arrOrder[month - 1] - arrOrder[month - 2]) / arrOrder[month - 2]) * 100):F2}"
             };
         }
         public ResponseDTO GetStatistical()

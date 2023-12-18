@@ -20,6 +20,12 @@ namespace BookStore.Controllers
             var res = _bookService.GetBookById(id);
             return StatusCode(res.Code, res);
         }
+        [HttpPost("ids")]
+        public IActionResult GetBookByIds(List<int> ids)
+        {
+            var res = _bookService.GetBookByIds(ids);
+            return StatusCode(res.Code, res);
+        }
         [HttpGet]
         public IActionResult GetBooks(int? page = 1, int? pageSize = 10, string? key = "", string? sortBy = "ID", int? tagId = 0)
         {

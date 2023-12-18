@@ -32,7 +32,8 @@ namespace BookStore.Model
         public int AuthorId { get; set; }
         public virtual Author Author { get; set; }
         public virtual List<Tag> Tags { get; set; } = new List<Tag>();
-        public virtual List<Order> Orders { get; set; } = new List<Order>();
         public virtual List<Rating> Ratings { get; set; } = new List<Rating>();
+        public virtual List<OrderBook> OrderBooks { get; set; } = new List<OrderBook>();
+        public virtual List<CartBook> CartBooks { get; set; } = new List<CartBook>();
     }
 }

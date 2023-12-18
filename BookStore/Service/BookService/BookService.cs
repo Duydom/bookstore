@@ -6,6 +6,7 @@ using BookStore.Repositories.AuthorRepository;
 using BookStore.Repositories.BookRepository;
 using BookStore.Repositories.PublisherRepository;
 using BookStore.Repositories.TagRepository;
+using System.Collections.Generic;
 
 namespace BookStore.Service.BookService
 {
@@ -103,6 +104,25 @@ namespace BookStore.Service.BookService
             return new ResponseDTO()
             {
                 Data = _mapper.Map<BookDTO>(book)
+            };
+        }
+        public ResponseDTO GetBookByIds(List<int> ids)
+        {
+            var books = new List<Book>();
+            foreach (int id in ids)
+            {
+                var book = _bookRepository.GetBookById(id);
+                if (book != null) books.Add(book);
+            }
+            if (books == null) return new ResponseDTO()
+            {
+                Code = 400,
+                Message = "Book không tồn tại"
+            };
+
+            return new ResponseDTO()
+            {
+                Data = _mapper.Map<List<BookDTO>>(books)
             };
         }
 

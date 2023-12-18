@@ -17,6 +17,7 @@ namespace BookStore.Model
         public DbSet<Order> Orders { get; set; }
         public DbSet<Quantity> Quantities { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartBook> CartBooks { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
