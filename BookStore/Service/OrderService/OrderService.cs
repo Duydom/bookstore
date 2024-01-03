@@ -82,11 +82,16 @@ namespace BookStore.Service.OrderService
                 var book = _bookRepository.GetBookById(createOrderDTO.BookIds[i]);
                 if (book != null)
                 {
-                    order.OrderBooks.Add(new OrderBook()
+                    book.Count -= createOrderDTO.QuantitieCounts[i];
+                    _bookRepository.UpdateBook(book);
+                    if (_bookRepository.IsSaveChanges())
                     {
-                        BookId = book.Id,
-                        Quantity = createOrderDTO.QuantitieCounts[i],
-                    });
+                        order.OrderBooks.Add(new OrderBook()
+                        {
+                            BookId = book.Id,
+                            Quantity = createOrderDTO.QuantitieCounts[i],
+                        });
+                    }
                 }
             }
 
@@ -94,7 +99,11 @@ namespace BookStore.Service.OrderService
             if (_orderRepository.IsSaveChanges())
                 return new ResponseDTO()
                 {
-                    Message = "Tạo thành công"
+                    Message = "Tạo thành công",
+                    Data = new
+                    {
+                        Id = order.Id,
+                    }
                 };
             else return new ResponseDTO()
             {

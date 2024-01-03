@@ -229,6 +229,10 @@ namespace BookStore.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("PayMode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("QuantityId")
                         .HasColumnType("int");
 

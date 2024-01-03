@@ -10,6 +10,7 @@ namespace BookStore.DTOs.Order
     public class CreateOrderDTO
     {
         public string Status { get; set; }
+        public string PayMode { get; set; }
         public string Description { get; set; }
         public int UserId { get; set; }
         public int ShippingModeId { get; set; }
