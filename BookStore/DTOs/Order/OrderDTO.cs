@@ -11,6 +11,7 @@ namespace BookStore.DTOs.Order
     {
         public int Id { get; set; }
         public string Status { get; set; }
+        public string PayMode { get; set; }
         public string Description { get; set; }
         public bool IsDeleted { get; set; }
         public virtual UserDTO User { get; set; }

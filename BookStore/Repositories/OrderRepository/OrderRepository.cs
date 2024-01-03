@@ -37,10 +37,10 @@ namespace BookStore.Repositories.OrderRepository
             switch (sortBy)
             {
                 case "CREATE":
-                    query = query.OrderBy(u => u.Create);
+                    query = query.OrderBy(u => u.Create).ThenByDescending(u => u.Id);
                     break;
                 default:
-                    query = query.OrderBy(u => u.IsDeleted).ThenBy(u => u.Id);
+                    query = query.OrderBy(u => u.IsDeleted).ThenByDescending(u => u.Id);
                     break;
             }
             if (page == null || pageSize == null || sortBy == null) { return query.ToList(); }

@@ -23,6 +23,7 @@ using BookStore.Service.ShippingModeService;
 using BookStore.Service.StatisticalService;
 using BookStore.Service.TagService;
 using BookStore.Service.UserService;
+using BookStore.Service.VNPayService;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,6 +52,7 @@ services.AddScoped<IQuantityRepository, QuantityRepository>();
 services.AddScoped<ICartRepository, CartRepository>();
 services.AddScoped<IRatingRepository, RatingRepository>();
 
+services.AddScoped<IVNPayService, VNPayService>();
 services.AddScoped<IRatingService, RatingService>();
 services.AddScoped<ICartService, CartService>();
 services.AddScoped<IStatisticalService, StatisticalService>();
