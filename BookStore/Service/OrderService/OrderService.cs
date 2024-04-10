@@ -79,16 +79,16 @@ namespace BookStore.Service.OrderService
 
             for (int i = 0; i < createOrderDTO.BookIds.Count; i++)
             {
-                var book = _bookRepository.GetBookById(createOrderDTO.BookIds[i]);
-                if (book != null)
+                var shoe = _bookRepository.GetBookById(createOrderDTO.BookIds[i]);
+                if (shoe != null)
                 {
-                    book.Count -= createOrderDTO.QuantitieCounts[i];
-                    _bookRepository.UpdateBook(book);
+                    shoe.Count -= createOrderDTO.QuantitieCounts[i];
+                    _bookRepository.UpdateBook(shoe);
                     if (_bookRepository.IsSaveChanges())
                     {
                         order.OrderBooks.Add(new OrderBook()
                         {
-                            BookId = book.Id,
+                            BookId = shoe.Id,
                             Quantity = createOrderDTO.QuantitieCounts[i],
                         });
                     }

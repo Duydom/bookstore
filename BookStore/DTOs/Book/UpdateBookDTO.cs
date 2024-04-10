@@ -4,7 +4,7 @@
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public int NumberOfPages { get; set; }
+        public int Size { get; set; }
         public DateTime PublishDate { get; set; }
         public string Language { get; set; }
         public int Count { get; set; }

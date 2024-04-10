@@ -40,19 +40,19 @@ namespace BookStore.Service.BookService
                 Code = 400,
                 Message = "Author không tồn tại"
             };
-            var book = _mapper.Map<Book>(createBookDTO);
+            var shoe = _mapper.Map<Book>(createBookDTO);
             foreach (var tagId in createBookDTO.TagIds)
             {
                 Tag tag = _tagRepository.GetTagById(tagId);
                 if (tag != null)
-                    book.Tags.Add(tag);
+                    shoe.Tags.Add(tag);
             }
-            if (book.Tags.Count == 0) return new ResponseDTO()
+            if (shoe.Tags.Count == 0) return new ResponseDTO()
             {
                 Code = 400,
                 Message = "Tag không được để trống"
             };
-            _bookRepository.CreateBook(book);
+            _bookRepository.CreateBook(shoe);
 
             if (_bookRepository.IsSaveChanges())
                 return new ResponseDTO()
@@ -69,16 +69,16 @@ namespace BookStore.Service.BookService
 
         public ResponseDTO DeleteBook(int id)
         {
-            var book = _bookRepository.GetBookById(id);
-            if (book == null) return new ResponseDTO()
+            var shoe = _bookRepository.GetBookById(id);
+            if (shoe == null) return new ResponseDTO()
             {
                 Code = 400,
                 Message = "Book không tồn tại"
             };
 
-            book.IsDeleted = true;
+            shoe.IsDeleted = true;
 
-            _bookRepository.UpdateBook(book);
+            _bookRepository.UpdateBook(shoe);
             if (_bookRepository.IsSaveChanges())
                 return new ResponseDTO()
                 {
@@ -94,8 +94,8 @@ namespace BookStore.Service.BookService
 
         public ResponseDTO GetBookById(int id)
         {
-            var book = _bookRepository.GetBookById(id);
-            if (book == null) return new ResponseDTO()
+            var shoe = _bookRepository.GetBookById(id);
+            if (shoe == null) return new ResponseDTO()
             {
                 Code = 400,
                 Message = "Book không tồn tại"
@@ -103,18 +103,18 @@ namespace BookStore.Service.BookService
 
             return new ResponseDTO()
             {
-                Data = _mapper.Map<BookDTO>(book)
+                Data = _mapper.Map<BookDTO>(shoe)
             };
         }
         public ResponseDTO GetBookByIds(List<int> ids)
         {
-            var books = new List<Book>();
+            var shoes = new List<Book>();
             foreach (int id in ids)
             {
-                var book = _bookRepository.GetBookById(id);
-                if (book != null) books.Add(book);
+                var shoe = _bookRepository.GetBookById(id);
+                if (shoe != null) shoes.Add(shoe);
             }
-            if (books == null) return new ResponseDTO()
+            if (shoes == null) return new ResponseDTO()
             {
                 Code = 400,
                 Message = "Book không tồn tại"
@@ -122,28 +122,28 @@ namespace BookStore.Service.BookService
 
             return new ResponseDTO()
             {
-                Data = _mapper.Map<List<BookDTO>>(books)
+                Data = _mapper.Map<List<BookDTO>>(shoes)
             };
         }
 
         public ResponseDTO GetBooks(int? page = 1, int? pageSize = 10, string? key = "", string? sortBy = "ID", int? tagId = 0)
         {
-            var books = _bookRepository.GetBooks(page, pageSize, key, sortBy, tagId);
+            var shoes = _bookRepository.GetBooks(page, pageSize, key, sortBy, tagId);
 
             return new ResponseDTO()
             {
-                Data = _mapper.Map<List<BookDTO>>(books),
+                Data = _mapper.Map<List<BookDTO>>(shoes),
                 Total = BookRepository.Total
             };
         }
 
-        public ResponseDTO GetCart(List<int> bookIds)
+        public ResponseDTO GetCart(List<int> shoeIds)
         {
-            var books = _bookRepository.GetCart(bookIds);
+            var shoes = _bookRepository.GetCart(shoeIds);
 
             return new ResponseDTO()
             {
-                Data = _mapper.Map<List<BookDTO>>(books),
+                Data = _mapper.Map<List<BookDTO>>(shoes),
                 Total = _bookRepository.GetBookCount()
             };
         }
@@ -151,34 +151,34 @@ namespace BookStore.Service.BookService
         public ResponseDTO UpdateBook(int id, UpdateBookDTO updateBookDTO)
         {
 
-            var book = _bookRepository.GetBookById(id);
-            if (book == null) return new ResponseDTO()
+            var shoe = _bookRepository.GetBookById(id);
+            if (shoe == null) return new ResponseDTO()
             {
                 Code = 400,
                 Message = "Book không tồn tại"
             };
 
-            book.Update = DateTime.Now;
-            book.Title = updateBookDTO.Title;
-            book.Description = updateBookDTO.Description;
-            book.NumberOfPages = updateBookDTO.NumberOfPages;
-            book.PublishDate = updateBookDTO.PublishDate;
-            book.Language = updateBookDTO.Language;
-            book.Count = updateBookDTO.Count;
-            book.Price = updateBookDTO.Price;
-            book.Image = updateBookDTO.Image;
-            book.PublisherId = updateBookDTO.PublisherId;
-            book.AuthorId = updateBookDTO.AuthorId;
+            shoe.Update = DateTime.Now;
+            shoe.Title = updateBookDTO.Title;
+            shoe.Description = updateBookDTO.Description;
+            shoe.Size = updateBookDTO.Size;
+            shoe.PublishDate = updateBookDTO.PublishDate;
+            shoe.Language = updateBookDTO.Language;
+            shoe.Count = updateBookDTO.Count;
+            shoe.Price = updateBookDTO.Price;
+            shoe.Image = updateBookDTO.Image;
+            shoe.PublisherId = updateBookDTO.PublisherId;
+            shoe.AuthorId = updateBookDTO.AuthorId;
 
-            book.Tags = new List<Tag>();
+            shoe.Tags = new List<Tag>();
             foreach (var tagId in updateBookDTO.TagIds)
             {
                 Tag tag = _tagRepository.GetTagById(tagId);
                 if (tag != null)
-                    book.Tags.Add(tag);
+                    shoe.Tags.Add(tag);
             }
 
-            _bookRepository.UpdateBook(book);
+            _bookRepository.UpdateBook(shoe);
             if (_bookRepository.IsSaveChanges())
                 return new ResponseDTO()
                 {

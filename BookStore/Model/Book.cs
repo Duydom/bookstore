@@ -13,7 +13,7 @@ namespace BookStore.Model
         //[StringLength(255)]
         public string Description { get; set; }
         [Required]
-        public int NumberOfPages { get; set; }
+        public int Size { get; set; }
         public DateTime PublishDate { get; set; } = DateTime.Now;
         [Required]
         public string Language { get; set; }
